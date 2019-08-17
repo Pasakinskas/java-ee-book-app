@@ -1,5 +1,5 @@
 package com.pasakinskas.homework.config;
-import com.pasakinskas.homework.HelloWorld;
+import com.pasakinskas.homework.controller.BooksController;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.stereotype.Component;
 
@@ -7,6 +7,6 @@ import org.springframework.stereotype.Component;
 public class JerseyConfig extends ResourceConfig
 {
     public JerseyConfig() {
-        register(HelloWorld.class);
+        register(BooksController.class);
     }
 }

@@ -30,4 +30,16 @@ public class AntiqueBook extends Book {
     public void setReleaseYear(int releaseYear) {
         this.releaseYear = releaseYear;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "name='" + getName() + '\'' +
+                ", author='" + getAuthor() + '\'' +
+                ", barcode='" + getBarcode() + '\'' +
+                ", pricePerUnit=" + getPricePerUnit() +
+                ", quantity=" + getQuantity() +
+                "releaseYear=" + releaseYear +
+                '}';
+    }
 }

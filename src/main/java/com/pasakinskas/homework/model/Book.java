@@ -1,8 +1,10 @@
 package com.pasakinskas.homework.model;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class Book {
+public class Book implements Serializable {
+    private static final long serialVersionUID = 1L;
     private String name;
     private String author;
     private String barcode;
@@ -20,8 +22,19 @@ public class Book {
     public Book() {
     }
 
+    @Override
+    public String toString() {
+        return "{" +
+                "name='" + name + '\'' +
+                ", author='" + author + '\'' +
+                ", barcode='" + barcode + '\'' +
+                ", pricePerUnit=" + pricePerUnit +
+                ", quantity=" + quantity +
+                '}';
+    }
+
     public BigDecimal calculateTotalPrice() {
-         return getPricePerUnit().multiply(BigDecimal.valueOf(getQuantity()));
+        return getPricePerUnit().multiply(BigDecimal.valueOf(getQuantity()));
     }
 
     public String getName() {
