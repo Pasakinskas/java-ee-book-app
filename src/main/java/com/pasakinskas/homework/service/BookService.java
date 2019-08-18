@@ -1,5 +1,8 @@
 package com.pasakinskas.homework.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pasakinskas.homework.Utilities.BookClassifier;
 import com.pasakinskas.homework.storage.BookStorage;
 import com.pasakinskas.homework.storage.DataModel;
 import com.pasakinskas.homework.model.AntiqueBook;
@@ -23,7 +26,7 @@ public class BookService {
         this.storage = storage;
     }
 
-    public List<Book> getAllBooks() {
+    public List<Book> getAll() {
         DataModel model = storage.readData();
         List<Book> allBooks = new ArrayList<>();
 
@@ -34,29 +37,77 @@ public class BookService {
         return allBooks;
     }
 
-    public List<ScienceJournal> getAllScienceJournals() {
-        DataModel model = storage.readData();
-        return model.getScienceJournals();
+    public List<AntiqueBook> getAllAntiqueBooks() {
+        return storage.readData().getAntiqueBooks();
     }
 
-    public List<AntiqueBook> getAllAntiqueBooks() {
-        DataModel model = storage.readData();
-        return model.getAntiqueBooks();
+    public List<ScienceJournal> getAllScienceJournals() {
+        return storage.readData().getScienceJournals();
     }
 
     public Book getBookByBarcode(String barcode) {
-        // TODO: throw custom exception
-        List<Book> allBooks = getAllBooks();
-
-        return allBooks
+        return getAll()
                 .stream()
                 .filter(book -> book.getBarcode().equals(barcode))
                 .findFirst()
                 .orElse(null);
     }
 
-    public static void replaceBookByBarcode(Book book) {
+    public void deleteBookByBarcode(String barcode) throws NullPointerException {
+        DataModel model = storage.readData();
+        Book book = getBookByBarcode(barcode);
 
+        if (book == null) {
+            throw new NullPointerException();
+        }
+        else if (BookClassifier.isBaseBook(book)) {
+            model.removeBook(book);
+        } else if (BookClassifier.isAntique(book)) {
+            AntiqueBook antiqueBook = (AntiqueBook) book;
+            model.removeAntiqueBook(antiqueBook);
+        } else if (BookClassifier.isScienceJournal(book)) {
+            ScienceJournal journal = (ScienceJournal) book;
+            model.removeScienceJournal(journal);
+        }
+
+        storage.updateData(model);
+    }
+
+    public void addNew(Book book) {
+        DataModel model = storage.readData();
+        Class type = book.getClass();
+
+        if (type == ScienceJournal.class) {
+            ScienceJournal journal = (ScienceJournal) book;
+            model.addScienceJournal(journal);
+        } else if (type == AntiqueBook.class) {
+            AntiqueBook antiqueBook = (AntiqueBook) book;
+            model.addAntiqueBook(antiqueBook);
+        } else {
+            model.addBook(book);
+        }
+
+        storage.updateData(model);
+    }
+
+    public boolean barcodeNotTaken(String barcode) {
+        return getBookByBarcode(barcode) == null;
+    }
+
+    public void replaceByBarcode(Book book) {
+        deleteBookByBarcode(book.getBarcode());
+        addNew(book);
+    }
+
+    public Book buildFromJson(JsonNode json, String className) {
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            return mapper.treeToValue(json, BookClassifier.getBookSubclassByClassName(className));
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        return null;
     }
 
     public void createMockData() {

@@ -1,14 +1,23 @@
 package com.pasakinskas.homework.model;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
 public class Book implements Serializable {
     private static final long serialVersionUID = 1L;
+    @NotEmpty
     private String name;
+    @NotEmpty
     private String author;
+    @NotEmpty
     private String barcode;
+    @NotNull
     private BigDecimal pricePerUnit;
+    @NotNull
+    @Min(1)
     private int quantity;
 
     public Book(String name, String author, String barcode, BigDecimal pricePerUnit, int quantity) {

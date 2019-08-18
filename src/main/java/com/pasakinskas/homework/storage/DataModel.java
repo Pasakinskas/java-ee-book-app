@@ -12,7 +12,6 @@ import java.util.List;
  *  TODO: write a short explanation about this
  */
 
-
 public class DataModel implements Serializable {
 
     private static final long serialVersionUID = 2L;
@@ -43,6 +42,30 @@ public class DataModel implements Serializable {
 
     public List<AntiqueBook> getAntiqueBooks() {
         return antiqueBooks;
+    }
+
+    public void addBook(Book book) {
+        books.add(book);
+    }
+
+    public void addScienceJournal(ScienceJournal journal) {
+        scienceJournals.add(journal);
+    }
+
+    public void addAntiqueBook(AntiqueBook book) {
+        antiqueBooks.add(book);
+    }
+
+    public void removeBook(Book book) {
+        books.remove(book);
+    }
+
+    public void removeScienceJournal(ScienceJournal journal) {
+        scienceJournals.remove(journal);
+    }
+
+    public void removeAntiqueBook(AntiqueBook book) {
+        antiqueBooks.remove(book);
     }
 
     public void setAntiqueBooks(List<AntiqueBook> antiqueBooks) {

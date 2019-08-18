@@ -1,11 +1,13 @@
 package com.pasakinskas.homework.model;
 
-import javax.validation.constraints.Size;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.math.BigDecimal;
 
 public class ScienceJournal extends Book {
 
-    @Size(min = 1, max = 10)
+    @Min(1)
+    @Max(10)
     private int scienceIndex;
 
     public ScienceJournal(String name, String author, String barcode,

@@ -4,10 +4,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.*;
 
-/**
- *  TODO: write a short explanation about this
- */
-
 @Component
 public class BookStorage {
     private static final String PATH = "./storage/books.txt";
@@ -55,13 +51,5 @@ public class BookStorage {
         }
 
         this.model = updatedModel;
-    }
-
-    public DataModel getModel() {
-        return model;
-    }
-
-    public void setModel(DataModel model) {
-        this.model = model;
     }
 }

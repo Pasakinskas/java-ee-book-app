@@ -1,10 +1,12 @@
 package com.pasakinskas.homework.model;
 
 import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.math.BigDecimal;
 import java.util.Calendar;
 
 public class AntiqueBook extends Book {
+    @Min(1454)
     @Max(1900)
     private int releaseYear;
 
