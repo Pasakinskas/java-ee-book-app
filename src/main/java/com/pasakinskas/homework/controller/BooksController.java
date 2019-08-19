@@ -44,7 +44,7 @@ public class BooksController {
             List<AntiqueBook> books = bookService.getAllAntiqueBooks();
             return Response.ok(books).build();
         } else if (type.equals("ScienceJournal")) {
-           List<ScienceJournal> books = bookService.getAllScienceJournals();
+            List<ScienceJournal> books = bookService.getAllScienceJournals();
             return Response.ok(books).build();
         } else {
             return Response.status(404).build();
@@ -94,7 +94,7 @@ public class BooksController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateBook(@QueryParam("type") String type, JsonNode json) {
-        Book book = bookService.buildFromJson(json,type);
+        Book book = bookService.buildFromJson(json, type);
         Set<ConstraintViolation<Object>> violations = validator.validate(book);
         if (violations.isEmpty()) {
             bookService.replaceByBarcode(book);
@@ -124,7 +124,9 @@ public class BooksController {
     public Response createNewBook(@QueryParam("type") String type, @RequestBody JsonNode json) {
 
         try {
-            Book book = bookService.buildFromJson(json, type);
+            Book book = type == null ?
+                    bookService.buildFromJson(json, "book") :
+                    bookService.buildFromJson(json, type);
             Set<ConstraintViolation<Object>> violations = validator.validate(book);
             if (violations.isEmpty() && bookService.barcodeNotTaken(book.getBarcode())) {
                 bookService.addNew(book);

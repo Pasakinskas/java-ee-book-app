@@ -8,10 +8,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *  TODO: write a short explanation about this
- */
-
 public class DataModel implements Serializable {
 
     private static final long serialVersionUID = 2L;
